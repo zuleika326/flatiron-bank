@@ -1,35 +1,23 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+/* eslint-disable react/jsx-no-undef */
+import { useState, useEffect } from "react";
+import "./App";
+import {ViewTable} from "./Components/ViewTable";
+import { Form } from "./Components/Form"; 
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  // eslint-disable-next-line no-unused-vars
+  const [transactions, setTransactions] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:8001/transactions")
+      .then((response) => response.json())
+      .then((data) => setTransactions(data));
+  }, []);
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Form/>
+      <ViewTable transactions={transactions} />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
